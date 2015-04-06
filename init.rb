@@ -4,6 +4,7 @@ require 'holidays/fr'       # Edit this to the most appropriate holiday region f
 $holiday_locale = 'fr'   # Set this to the same region (or subregion if appropriate)
 
 require_dependency 'schedule_compatibility'
+require_dependency 'schedule_daterange'
 
 Redmine::Plugin.register :redmine_schedules do
     name 'Redmine Schedules plugin'

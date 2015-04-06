@@ -85,7 +85,7 @@ class SchedulesController < ApplicationController
         @schedule_default ||= ScheduleDefault.new
         @schedule_default.weekday_hours ||= [0,0,0,0,0,0,0]
         @schedule_default.user_id = @user.id
-        @calendar = Redmine::Helpers::Calendar.new(Date.today, current_language, :week)
+        @calendar = Schedule::DateRange.new(Date.today, current_language, :week)
     end
 
 
@@ -416,7 +416,7 @@ class SchedulesController < ApplicationController
         @date = Date.parse(params[:date]) if params[:date]
         @date ||= Date.civil(params[:year].to_i, params[:month].to_i, params[:day].to_i) if params[:year] && params[:month] && params[:day]
         @date ||= Date.today
-        @calendar = Redmine::Helpers::Calendar.new(@date, current_language, :week)
+        @calendar = Schedule::DateRange.new(@date, current_language, :week)
 
     rescue ActiveRecord::RecordNotFound
         render_404
