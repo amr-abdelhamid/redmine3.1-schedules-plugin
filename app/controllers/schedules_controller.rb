@@ -104,7 +104,7 @@ class SchedulesController < ApplicationController
         @indexed_users = @users.index_by { |user| user.id }
         @defaults = get_defaults(user_ids).index_by { |default| default.user_id }
         @defaults.delete_if { |user_id, default| !default.weekday_hours.detect { |weekday| weekday != 0 }}
-        @calendar = Redmine::Helpers::Calendar.new(Date.today, current_language, :week)
+
     end
 
 

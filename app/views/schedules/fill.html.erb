@@ -22,7 +22,9 @@
                     <th class="fill" rowspan="2"><%= l(:label_schedules_fill_total_header) %></th>
                 </tr>
                 <tr>
-                    <% 7.times do |i| %><th><%= day_name( (@calendar.first_wday+i)%7 )%></th><% end %>
+                    <% (@calendar.startdt..@calendar.enddt).each do |day| %>
+                        <th><%= day_name(day.wday) %>, <br/><%= month_name(day.month) %> <%= day.day %></th>
+                    <% end %>
                 </tr>
             </thead>
             <tbody>
