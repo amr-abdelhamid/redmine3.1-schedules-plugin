@@ -5,6 +5,8 @@
         <%= select_day(@date.day, :prefix => "day", :discard_type => true) %>
         <%= select_month(@date.month, :prefix => "month", :discard_type => true) %>
         <%= select_year(@date.year, :prefix => "year", :discard_type => true) %>
+	<%= check_box_tag(:only_opendays, 'yes' ,@only_opendays) %>
+	<%= label_tag(:only_opendays, "only open days") %>
     </fieldset>
     <p style="float:right; margin:0px;">
         <%= link_to ("&#171; #{l(:label_previous)} #{l(:label_week).downcase}").html_safe, { :year => (@date-7).year, :month => (@date-7).month, :day => (@date-7).day } %> |

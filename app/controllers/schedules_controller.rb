@@ -417,6 +417,8 @@ class SchedulesController < ApplicationController
         @date ||= Date.civil(params[:year].to_i, params[:month].to_i, params[:day].to_i) if params[:year] && params[:month] && params[:day]
         @date ||= Date.today
         @calendar = Schedule::DateRange.new(@date, current_language, :week)
+	@only_opendays = true
+	@only_opendays = false if params[:only_opendays] != 'yes'
 
     rescue ActiveRecord::RecordNotFound
         render_404
