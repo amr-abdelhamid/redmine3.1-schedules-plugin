@@ -1,0 +1,18 @@
+<%= form_tag({}, :id => 'date_form') do %>
+    <fieldset id="date-range"><legend><%= l(:label_date_range) %></legend>
+        <%= hidden_field_tag 'project_id', @project.id unless @project.nil? %>
+        <%= hidden_field_tag 'user_id', @user.id unless @user.nil? %>
+        <%= select_day(@date.day, :prefix => "day", :discard_type => true) %>
+        <%= select_month(@date.month, :prefix => "month", :discard_type => true) %>
+        <%= select_year(@date.year, :prefix => "year", :discard_type => true) %>
+    </fieldset>
+    <p style="float:right; margin:0px;">
+        <%= link_to ("&#171; #{l(:label_previous)} #{l(:label_week).downcase}").html_safe, { :year => (@date-7).year, :month => (@date-7).month, :day => (@date-7).day } %> |
+        <%= link_to ("#{l(:label_next)} #{l(:label_week).downcase} &#187;").html_safe, { :year => (@date+7).year, :month => (@date+7).month, :day => (@date+7).day } %>
+    </p>
+    <p class="buttons">
+        <%= link_to_function l(:button_apply), '$("#date_form").submit()', :class => 'icon icon-checked' %>
+        <%= link_to l(:button_clear), {:controller => controller_name, :action => action_name, :project_id => @project, :user_id => @user}, :class => 'icon icon-reload' %>
+    </p>
+<% end %>
+
