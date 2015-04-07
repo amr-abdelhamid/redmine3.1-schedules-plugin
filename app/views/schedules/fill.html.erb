@@ -22,7 +22,7 @@
                     <th class="fill" rowspan="2"><%= l(:label_schedules_fill_total_header) %></th>
                 </tr>
                 <tr>
-                    <% (@calendar.startdt..@calendar.enddt).each do |day| %>
+                    <% (@calendar.active).each do |day| %>
                         <th><%= day_name(day.wday) %>, <br/><%= month_name(day.month) %> <%= day.day %></th>
                     <% end %>
                 </tr>
@@ -32,7 +32,7 @@
                     <% if User.current.allowed_to?(:edit_all_schedules, @project) || (User.current.id == user_id && User.current.allowed_to?(:edit_own_schedules, @project)) || User.current.admin? %>
                         <tr>
                             <th><%= @indexed_users[user_id] %></th>
-                            <% (@calendar.startdt..@calendar.enddt).each do |day| %>
+                            <% (@calendar.active).each do |day| %>
                                 <% hours = default.weekday_hours[day.wday] %>
                                 <td>
                                     <% if hours > 0 %>

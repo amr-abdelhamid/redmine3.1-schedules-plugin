@@ -12,7 +12,7 @@
     <thead>
         <tr>
             <% if !@focus.nil? %><th></th><% end %>
-            <% (calendar.startdt..calendar.enddt).each do |day| %>
+            <% (calendar.active).each do |day| %>
                 <th><%= day_name(day.wday) %>, <br/><%= month_name(day.month) %> <%= day.day %></th>
             <% end %>
         </tr>
@@ -38,7 +38,7 @@
                         <%= link_to @project, :controller => 'schedules', :action => 'index', :date => @date, :project_id => @project unless @project.nil? %>
                         <%= link_to @user, :controller => 'schedules', :action => 'index', :date => @date, :user_id => @user unless @user.nil? %>
                     </th>
-                    <% (calendar.startdt..calendar.enddt).each do |day| %>
+                    <% (calendar.active).each do |day| %>
                         <td class="even<%= ' today' if Date.today == day %> <%= ' holiday' if day.holiday?($holiday_locale, :observed) %>">
                             <ul>
                                 <% if !schedule_entries_by_day.nil? && !schedule_entries_by_day[day].nil? %>
@@ -60,7 +60,7 @@
         <% else %>
             <% schedule_entries_by_day = @entries.group_by {|entry| entry.date} %>
             <tr>
-                <% (calendar.startdt..calendar.enddt).each do |day| %>
+                <% (calendar.active).each do |day| %>
                         <td class="even<%= ' today' if Date.today == day %> <%= ' holiday' if day.holiday?($holiday_locale, :observed) %>">
                         <ul>
                             <% if !schedule_entries_by_day[day].nil? %>
@@ -83,7 +83,7 @@
             <% schedule_entries_by_day ||= @entries.group_by {|entry| entry.date} %>
             <% if !@focus.nil? %><th></th><% end %>
             <% entries_by_day = schedule_entries_by_day %>
-            <% (calendar.startdt..calendar.enddt).each do |day| %>
+            <% (calendar.active).each do |day| %>
                 <th>
                     <% sum = entries_by_day[day].nil? ? 0 : entries_by_day[day].collect(&:hours).sum %>
                     <%= sum if sum > 0 %>

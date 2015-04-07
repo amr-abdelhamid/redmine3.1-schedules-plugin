@@ -5,7 +5,7 @@
 <table class="cal schedule_entry_grid">
     <thead>
         <tr><td></td>
-            <% (calendar.startdt..calendar.enddt).each do |day| %>
+            <% (calendar.active).each do |day| %>
                 <th><%= day_name(day.wday) %>, <br/><%= month_name(day.month) %> <%= day.day %></th>
             <% end %>
         </tr>
@@ -15,7 +15,7 @@
             <% date_entries = project_entries[project.id].nil? ? [] : project_entries[project.id].index_by {|entry| entry.date.ajd} %>
             <tr>
                 <th><%= project %></th>
-                <% (calendar.startdt..calendar.enddt).each do |day| %>
+                <% (calendar.active).each do |day| %>
                         <td class="even<%= ' today' if Date.today == day %> <%= ' holiday' if day.holiday?($holiday_locale, :observed) %>">
                         <%
                             if date_entries[day.ajd].nil?
@@ -40,7 +40,7 @@
         <% end %>
         <tr>
             <th><em><%= l(:label_schedules_unavailable) %></em></th>
-            <% (calendar.startdt..calendar.enddt).each do |day| %>
+            <% (calendar.active).each do |day| %>
                 <td class="odd">
                     <%
                         if closed_entries[day.ajd].nil?
@@ -64,7 +64,7 @@
     <tfoot>
         <tr>
             <th><%= l(:label_total) %></th>
-            <% (calendar.startdt..calendar.enddt).each do |day| %>
+            <% (calendar.active).each do |day| %>
                 <th class="even<%= ' today' if Date.today == day %> <%= ' holiday' if day.holiday?($holiday_locale, :observed) %>">
                     <% sum = @entries.collect {|e| e.hours if e.date == day }.compact.sum %>
                     <% sum += closed_entries[day.ajd].hours unless closed_entries[day.ajd].nil? %>
