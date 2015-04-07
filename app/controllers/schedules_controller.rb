@@ -54,7 +54,7 @@ class SchedulesController < ApplicationController
         unless @users.empty?
             @entries = get_entries
             @availabilities = get_availabilities
-	    @calendar.set_opendays() if @only_opendays
+            @calendar.set_opendays() if @only_opendays
             render :action => 'index', :layout => !request.xhr?
         end
     end
@@ -417,9 +417,11 @@ class SchedulesController < ApplicationController
         @date = Date.parse(params[:date]) if params[:date]
         @date ||= Date.civil(params[:year].to_i, params[:month].to_i, params[:day].to_i) if params[:year] && params[:month] && params[:day]
         @date ||= Date.today
-        @calendar = Schedule::DateRange.new(@date, current_language, :week)
-	@only_opendays = true
-	@only_opendays = false if params[:only_opendays] != 'yes'
+        @week_count = params[:week_count].to_i if params[:week_count]
+        @week_count ||= 1
+        @calendar = Schedule::DateRange.new(@date, current_language, :week, @week_count)
+        @only_opendays = true
+        @only_opendays = false if params[:only_opendays] != 'yes'
 
     rescue ActiveRecord::RecordNotFound
         render_404
