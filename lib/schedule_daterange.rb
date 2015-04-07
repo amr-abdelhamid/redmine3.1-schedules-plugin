@@ -4,7 +4,7 @@ module Schedule
     # class to select a range of date
     class DateRange
       include Redmine::I18n
-      attr_reader :startdt, :enddt
+      attr_reader :startdt, :enddt, :active
 
       def initialize(date, lang = current_language, period = :month)
         @date = date
@@ -12,10 +12,11 @@ module Schedule
 	calendar = Redmine::Helpers::Calendar.new(@date, lang, period)
         @startdt = calendar.startdt
         @enddt = calendar.enddt
+	@active=(@startdt..@enddt)
       end
 
-      def active
-        @startdt..@enddt
+      def set_opendays()
+      	@active=(@startdt..@enddt-2)
       end
     end
 end

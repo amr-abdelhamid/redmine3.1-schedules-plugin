@@ -54,6 +54,7 @@ class SchedulesController < ApplicationController
         unless @users.empty?
             @entries = get_entries
             @availabilities = get_availabilities
+	    @calendar.set_opendays() if @only_opendays
             render :action => 'index', :layout => !request.xhr?
         end
     end
