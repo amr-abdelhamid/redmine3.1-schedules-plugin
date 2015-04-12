@@ -53,8 +53,9 @@ class SchedulesController < ApplicationController
     def index
         unless @users.empty?
             @entries = get_entries
-            @availabilities = get_availabilities
-            @calendar.set_opendays() if @only_opendays
+            @availabilities,defaults_av = get_availabilities
+            defaults_av = get_defaults_av
+            @calendar.set_opendays(defaults_av) if @only_opendays
             render :action => 'index', :layout => !request.xhr?
         end
     end
@@ -94,6 +95,8 @@ class SchedulesController < ApplicationController
     def edit
         @entries = get_entries
         @closed_entries = get_closed_entries
+        defaults_av = get_defaults_av
+        @calendar.set_opendays(defaults_av) if @only_opendays
         render :layout => !request.xhr?
     end
 
@@ -378,6 +381,21 @@ class SchedulesController < ApplicationController
             end
         end
         availabilities
+    end
+
+    def get_defaults_av(startdt = @calendar.startdt, enddt = @calendar.enddt, ignore_project = false)
+        # Get the user's default availability
+        defaults_by_user = get_defaults.index_by { |default| default.user.id }
+
+        # Generate and return the availabilities based on the above variables
+        defaults_av = Hash.new
+        (startdt..enddt).each do |day|
+            defaults_av[day] = 0
+            @users.each do |user|
+                defaults_av[day] = [defaults_av[day], defaults_by_user[user.id].weekday_hours[day.wday]].max unless defaults_by_user[user.id].nil?
+            end
+        end
+        defaults_av
     end
 
     #

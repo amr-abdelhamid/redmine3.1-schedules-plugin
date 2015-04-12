@@ -28,8 +28,9 @@ module Schedule
 
 
       # TODO
-      def set_opendays()
-        @active=(@startdt..@enddt-2).to_a
+      def set_opendays(defaults_av)
+        @active=(@startdt..@enddt).to_a
+        @active.delete_if{|dt| defaults_av[dt] <=0}
       end
     end
 end
