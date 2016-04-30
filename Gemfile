@@ -1,1 +1,1 @@
-gem 'holidays', :git => 'https://github.com/alexdunae/holidays'
+gem 'holidays', '2.2.0'
